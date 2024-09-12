@@ -39,7 +39,7 @@ export default function LoginPage() {
             first_name: firstName,
             last_name: lastName,
           },
-          emailRedirectTo: `${location.origin}/auth/callback`,
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL}`,
         },
       });
   
@@ -87,7 +87,7 @@ export default function LoginPage() {
           access_type: "offline",
           prompt: "consent",
         },
-        redirectTo: `${location.origin}/auth/callback`,
+        redirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL}`,
       },
     })
     setUser(res);
