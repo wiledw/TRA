@@ -95,6 +95,7 @@ export default function LoginPage() {
     router.refresh();
     setEmail("");
     setPassword("");
+    router.push('/');
   };
 
   if (loading) {
