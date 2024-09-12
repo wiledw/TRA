@@ -27,7 +27,7 @@ export default function LoginPage() {
       setLoading(false);
     };
     getUser();
-  }, []);
+  },[supabase.auth]);
 
   const handleSignUp = async () => {
     try {
@@ -210,7 +210,7 @@ export default function LoginPage() {
               onClick={() => setIsSignUp(true)} // Switch to Sign Up
               className="w-full p-3 rounded-md bg-gray-700 text-white hover:bg-gray-600 focus:outline-none"
             >
-              Don't have an account? Sign Up
+              Don&apos;t have an account? Sign Up
             </button>
             <button
               onClick={handleSignInWithGoogle}
