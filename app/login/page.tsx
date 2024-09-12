@@ -214,13 +214,13 @@ export default function LoginPage() {
             </button>
             <button
               onClick={handleSignInWithGoogle}
-              className="w-full mt-2 p-3 rounded-md bg-white text-gray-800 border border-gray-300 flex items-center justify-center  focus:outline-none"
+              className="w-full mt-2 p-3 rounded-md bg-white text-gray-800 border border-gray-300 flex items-center justify-center focus:outline-none"
             >
-              <img 
-                src="https://developers.google.com/identity/images/g-logo.png" 
+              <Image
+                src="https://developers.google.com/identity/images/g-logo.png"
                 alt="Sign in with Google"
-                width={24} 
-                height={24} 
+                width={24}
+                height={24}
                 className="mr-2"
               />
               Sign In with Google
