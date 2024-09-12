@@ -1,12 +1,13 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { Box, PaletteMode } from '@mui/material';
-import NavBar from './components/navbar';
+import NavBar from '../components/navbar';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import getLPTheme from './getLPTheme';
+import getLPTheme from '../getLPTheme';
 import { useRouter } from 'next/navigation';
+import Profile from '../components/profile';
 
 export default function Home() {
   const router = useRouter();
@@ -58,8 +59,9 @@ export default function Home() {
           paddingTop: '64px', 
         }}
       >
-        
+        <Profile />
       </Box>
     </ThemeProvider>
   );
 }
+
