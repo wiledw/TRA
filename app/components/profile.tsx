@@ -18,7 +18,7 @@ const Profile = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [supabase.auth]);
 
   if (!userData) {
     return <p>Loading...</p>;
