@@ -72,6 +72,7 @@ export default function LoginPage() {
         router.refresh(); // Refresh the router to update the state
         setEmail(""); // Clear the email input
         setPassword(""); // Clear the password input
+        router.push('/');
       }
     } catch (error) {
       console.error("Unexpected error during sign-in:", error);
@@ -96,36 +97,12 @@ export default function LoginPage() {
     setPassword("");
   };
 
-  const handleLogout = async () => {
-    const {error} = await supabase.auth.signOut();
-    setUser(null);
-    router.refresh();
-  };
-
-  if (user) {
-    return (
-      <div className="h-screen flex flex-col justify-center items-center bg-gray-100">
-        <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md w-96 text-center">
-          <h1 className="mb-4 text-xl font-bold text-blue-700 dark:text-gray-300">
-            You&apos;re logged in
-          </h1>
-          <button
-            onClick={handleLogout}
-            className="w-full p-3 rounded-md bg-red-400 text-white hover:bg-red-600 focus:outline-none"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   if (loading) {
     return <h1>loading..</h1>;
   }
 
   return (
-    <main className="h-screen flex items-center justify-center bg-green-400 p-6">
+    <main className="h-screen flex items-center justify-center bg-white p-6">
       <div className="bg-gray-200 p-8 rounded-lg shadow-md w-96">
         {verificationMessage ? (
           <div className="text-center mb-4">
@@ -227,6 +204,12 @@ export default function LoginPage() {
             </button>
           </>
         )}
+        <button
+          onClick={() => router.push('/')}
+          className="w-full mt-4 p-3 rounded-md bg-red-500 text-white hover:bg-red-600 focus:outline-none"
+        >
+          Go back to Home
+        </button>
       </div>
     </main>
   );
