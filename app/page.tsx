@@ -33,7 +33,7 @@ export default function Home() {
       setUser(user);
     };
     fetchUser();
-  }, []);
+  }, [supabase.auth]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
