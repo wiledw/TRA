@@ -16,6 +16,7 @@ export default function Home() {
   const LPtheme = createTheme(getLPTheme(mode));
   const defaultTheme = createTheme({ palette: { mode } });
   const [user, setUser] = useState<any>(null);
+  const [userRole, setUserRole] = useState<string>("");
   const supabase = createClientComponentClient();
   
   const toggleColorMode = () => {
@@ -32,9 +33,14 @@ export default function Home() {
         data: { user },
       } = await supabase.auth.getUser();
       setUser(user);
+      if (user) {
+        const { data } = await supabase.from('user').select('*').single();
+        setUserRole(data.role);
+        console.log(userRole);
+      }
     };
     fetchUser();
-  }, [supabase.auth]);
+  }, [supabase.auth, userRole]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -49,6 +55,7 @@ export default function Home() {
         mode="light" 
         toggleColorMode={toggleColorMode}
         user={user}
+        role={userRole}
         handleLogout={handleLogout}
       />
       <Box
