@@ -30,6 +30,17 @@ export default function LoginPage() {
   },[supabase.auth]);
 
   const handleSignUp = async () => {
+    // Define the regex pattern for the allowed email domain
+    const emailPattern = /^[^\s@]+@torontomu\.ca$/;
+
+    // Check if the email matches the pattern
+    if (!emailPattern.test(email)) {
+      alert('Please use a valid @torontomu.ca email address.');
+      setEmail(""); // Clear the email input
+      setPassword(""); // Clear the password input
+      return;
+    }
+
     try {
       const res = await supabase.auth.signUp({
         email,
@@ -189,6 +200,7 @@ export default function LoginPage() {
             >
               Don&apos;t have an account? Sign Up
             </button>
+            <p className="text-center mt-4 mb-2 text-gray-600">Only TMU email</p>
             <button
               onClick={handleSignInWithGoogle}
               className="w-full mt-2 p-3 rounded-md bg-white text-gray-800 border border-gray-300 flex items-center justify-center focus:outline-none"

@@ -16,10 +16,11 @@ interface AppAppBarProps {
   mode: PaletteMode;
   toggleColorMode: () => void;
   user: any;
+  role: string;  // 'admin' or 'student'
   handleLogout: () => void;
 }
 
-function NavBar({ mode, toggleColorMode, user, handleLogout }: AppAppBarProps) {
+function NavBar({ mode, toggleColorMode, user, role, handleLogout }: AppAppBarProps) {
   const router = useRouter();
 
   const handleHomeClick = () => {
@@ -29,6 +30,14 @@ function NavBar({ mode, toggleColorMode, user, handleLogout }: AppAppBarProps) {
   const handleProfileClick = () => {
     if (user) {
       router.push('/profile');
+    } else {
+      router.push('/login');
+    }
+  };
+
+  const handleAdminClick = () => {
+    if (user && role === "admin") {
+      router.push('/admin');
     } else {
       router.push('/login');
     }
@@ -96,6 +105,14 @@ function NavBar({ mode, toggleColorMode, user, handleLogout }: AppAppBarProps) {
                 <MenuItem onClick={handleProfileClick}>
                   <Typography variant="body2" color="text.primary">
                     Profile
+                  </Typography>
+                </MenuItem>
+              )}
+
+              {user && (role === "admin") && (
+                <MenuItem onClick={handleAdminClick}>
+                  <Typography variant="body2" color="text.primary">
+                    Admin
                   </Typography>
                 </MenuItem>
               )}

@@ -9,12 +9,21 @@ export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
   const supabase = createMiddlewareClient({req, res});
-  const {data} = await supabase.auth.getSession();
+  const {data: sessionData } = await supabase.auth.getSession();
+  const { data: userData } = await supabase.from('user').select('*').single();
   
 
   // protected routes
-  if (pathname === "/profile" && !data?.session) {
+  if (pathname === "/profile" && !sessionData?.session) {
     return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  if (pathname === "/admin" && !sessionData?.session) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  if (pathname === "/admin" && sessionData?.session && userData.role !== "admin") {
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   return res;
@@ -22,5 +31,5 @@ export async function middleware(req: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/profile"]
+  matcher: ["/profile", "/admin"]
 };
