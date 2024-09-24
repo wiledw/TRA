@@ -92,20 +92,29 @@ export default function LoginPage() {
   };
   
   const handleSignInWithGoogle = async () => {
-    const res = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+          redirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL}`,
         },
-        redirectTo: `${process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URL}`,
-      },
-    })
-    setUser(res);
-    router.refresh();
-    setEmail("");
-    setPassword("");
+      });
+  
+      if (error) {
+        alert(`Sign in failed: ${error.message}`);
+      } else {
+        // No need to set the user directly here. After the redirect and authentication process,
+        // Supabase will handle it and we can get the user afterward.
+        console.log("Redirecting to:", data.url);  // Check where the redirection happens.
+      }
+    } catch (error) {
+      console.error("Unexpected error during sign-in:", error);
+      alert("An unexpected error occurred. Please try again.");
+    }
   };
 
   if (loading) {
@@ -162,6 +171,20 @@ export default function LoginPage() {
             >
               Sign Up
             </button>
+            <p className="text-center mt-4 mb-2 text-gray-600">Only TMU email</p>
+            <button
+              onClick={handleSignInWithGoogle}
+              className="w-full mb-6 p-3 rounded-md bg-white text-gray-800 border border-gray-300 flex items-center justify-center focus:outline-none"
+            >
+              <Image
+                src="https://developers.google.com/identity/images/g-logo.png"
+                alt="Sign in with Google"
+                width={24}
+                height={24}
+                className="mr-2"
+              />
+              Sign Up with Google
+            </button>
             <button
               onClick={() => setIsSignUp(false)} // Switch to Sign In
               className="w-full p-3 rounded-md bg-gray-700 text-white hover:bg-gray-600 focus:outline-none"
@@ -194,16 +217,10 @@ export default function LoginPage() {
             >
               Sign In
             </button>
-            <button
-              onClick={() => setIsSignUp(true)} // Switch to Sign Up
-              className="w-full p-3 rounded-md bg-gray-700 text-white hover:bg-gray-600 focus:outline-none"
-            >
-              Don&apos;t have an account? Sign Up
-            </button>
             <p className="text-center mt-4 mb-2 text-gray-600">Only TMU email</p>
             <button
               onClick={handleSignInWithGoogle}
-              className="w-full mt-2 p-3 rounded-md bg-white text-gray-800 border border-gray-300 flex items-center justify-center focus:outline-none"
+              className="w-full mb-6 p-3 rounded-md bg-white text-gray-800 border border-gray-300 flex items-center justify-center focus:outline-none"
             >
               <Image
                 src="https://developers.google.com/identity/images/g-logo.png"
@@ -213,6 +230,12 @@ export default function LoginPage() {
                 className="mr-2"
               />
               Sign In with Google
+            </button>
+            <button
+              onClick={() => setIsSignUp(true)} // Switch to Sign Up
+              className="w-full p-3 rounded-md bg-gray-700 text-white hover:bg-gray-600 focus:outline-none"
+            >
+              Don&apos;t have an account? Sign Up
             </button>
           </>
         )}
