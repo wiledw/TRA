@@ -28,7 +28,7 @@ export default function WebArticles({
     <h2>{title}</h2> 
     <div className="grid text-center">
       <span onClick={() => vote(id)}>upvote</span>
-      <span>{votes.length} votes</span>
+      <span>{votes?.length} votes</span>
       <span onClick={() => changeVote(id, true)}>downvote</span>
 
     
