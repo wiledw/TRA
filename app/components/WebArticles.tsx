@@ -14,5 +14,16 @@ export default function WebArticles({webArticle: { title }}: {
   webArticle:WebArticle
 }) {
   
-  return <div className="border px-4 py-3 cursor-pointer hover:bg-gray-900">{title}</div>;
+  return <div className="border flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-gray-900">
+    
+    <h2>{title}</h2> 
+    <div className="grid text-center">
+      <span>upvote</span>
+      <span> votes</span>
+      <span>downvote</span>
+
+    
+    </div>
+  
+  </div>;
 }
