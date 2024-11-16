@@ -27,17 +27,5 @@ export default function WebArticles({
 
   webArticle:WebArticle
 }) {
-  const { vote } = changeVote()
-  
-  return <div className="border flex items-center justify-between">
-    <h2>{postTitle}</h2> 
-    <div className="grid text-center">
-      <span onClick={() => vote(id)}>upvote</span>
-      <span>{votes?.length} votes</span>
-      <span onClick={() => changeVote(id, true)}>downvote</span>
-
-    
-    </div>
-  
-  </div>;
+ 
 }
