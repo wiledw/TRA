@@ -2,18 +2,24 @@
 
 
 export type WebArticle = {
+  username: string;
   id?: number;
   created_at?: string;
   title: string;
-  votes: any[];
+  description: string;
+  geolocation: string;
+  votes?: any[];
 
 }
 
 
 export default function WebArticles({
   webArticle: {
+    username,
     id,
     title,
+    description,
+    geolocation,
     votes
   
   }
@@ -23,8 +29,7 @@ export default function WebArticles({
 }) {
   const { vote } = changeVote()
   
-  return <div className="border flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-gray-900">
-    
+  return <div className="border flex items-center justify-between px-4 py-3 cursor-pointer">
     <h2>{title}</h2> 
     <div className="grid text-center">
       <span onClick={() => vote(id)}>upvote</span>
