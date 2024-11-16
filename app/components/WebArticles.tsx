@@ -29,7 +29,7 @@ export default function WebArticles({
 }) {
   const { vote } = changeVote()
   
-  return <div className="border flex items-center justify-between cursor-pointer">
+  return <div className="border flex items-center justify-between">
     <h2>{postTitle}</h2> 
     <div className="grid text-center">
       <span onClick={() => vote(id)}>upvote</span>
