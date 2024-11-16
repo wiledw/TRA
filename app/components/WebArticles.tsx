@@ -4,7 +4,7 @@
 export type WebArticle = {
   username: string;
   id?: number;
-  created_at?: string;
+  postMadeAt?: string;
   title: string;
   description: string;
   geolocation: string;
