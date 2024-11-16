@@ -5,11 +5,19 @@ export type WebArticle = {
   id?: number;
   created_at?: string;
   title: string;
+  votes: any[];
 
 }
 
 
-export default function WebArticles({webArticle: { title }}: {
+export default function WebArticles({
+  webArticle: {
+    id,
+    title,
+    votes
+  
+  }
+}: {
 
   webArticle:WebArticle
 }) {
@@ -20,7 +28,7 @@ export default function WebArticles({webArticle: { title }}: {
     <h2>{title}</h2> 
     <div className="grid text-center">
       <span onClick={() => vote(id)}>upvote</span>
-      <span> votes</span>
+      <span>{votes.length} votes</span>
       <span onClick={() => changeVote(id, true)}>downvote</span>
 
     
