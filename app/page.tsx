@@ -48,7 +48,13 @@ export default function Home() {
   };
 
   return (
-    <div style={{ backgroundImage: `url(${app/img/TMU Campus.png})`, backgroundSize: 'cover' }}> </div>
+    <Box
+      height={789}
+      width={1440}
+      sx={{
+        background: `url(${app/img/TMU Campus.png}) center / cover`,
+      }}
+    />
     <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
       <CssBaseline />
       <NavBar
