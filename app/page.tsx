@@ -48,9 +48,7 @@ export default function Home() {
   };
 
   return (
-    <div style={{ backgroundImage: `url(${app/img/TMU Campus.png})`, backgroundSize: 'cover' }}>
-      
-    </div>
+    <div style={{ backgroundImage: `url(${app/img/TMU Campus.png})`, backgroundSize: 'cover' }}> </div>
     <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
       <CssBaseline />
       <NavBar
