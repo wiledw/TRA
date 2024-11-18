@@ -70,7 +70,7 @@ export default function Home() {
     </ThemeProvider>
     <div>
       <Image
-        src="/your-local-image.png"
+        src="app/img/TMU Campus.png"
         alt="TMU Campus"
         width={500}
         height={300}
