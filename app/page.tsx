@@ -65,17 +65,17 @@ export default function Home() {
           paddingTop: '64px', 
         }}
       >
-        
       </Box>
+      <div>
+        <Image
+          src="app/img/TMU Campus.png"
+          alt="TMU Campus"
+          width={500}
+          height={300}
+          layout="responsive"
+        />
+      </div>
     </ThemeProvider>
-    <div>
-      <Image
-        src="app/img/TMU Campus.png"
-        alt="TMU Campus"
-        width={500}
-        height={300}
-        layout="responsive"
-      />
-    </div>
+
   );
 }
