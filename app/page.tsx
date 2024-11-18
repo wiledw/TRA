@@ -54,7 +54,6 @@ export default function Home() {
           alt="TMU Campus"
           width={500}
           height={300}
-          layout="responsive"
         />
      </div>
     <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
