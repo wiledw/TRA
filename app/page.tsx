@@ -7,7 +7,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import getLPTheme from './getLPTheme';
 import { useRouter } from 'next/navigation';
-import backgroundPic from 'app/img/TMU Campus.png';
+import Image from 'next/image';
+import backgroundPic from '../app/img/TMUCampus.png';
 
 export default function Home() {
   const router = useRouter();
@@ -66,11 +67,15 @@ export default function Home() {
           paddingTop: '64px', 
         }}
       >
+        <Image
+          src={backgroundPic}
+          alt="Picture of the TMU Campus"
+          style={{
+            width: '50%',
+            
+          }}
+        />
       </Box>
     </ThemeProvider>
-    <Image
-      src={backgroundPic}
-      alt="Picture of the TMU Campus"
-    />
   );
 }
