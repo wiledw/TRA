@@ -48,6 +48,15 @@ export default function Home() {
   };
 
   return (
+    <div>
+      <Image
+          src="app/img/TMU Campus.png"
+          alt="TMU Campus"
+          width={500}
+          height={300}
+          layout="responsive"
+        />
+     </div>
     <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
       <CssBaseline />
       <NavBar
@@ -66,15 +75,6 @@ export default function Home() {
         }}
       >
       </Box>
-      <div>
-        <Image
-          src="app/img/TMU Campus.png"
-          alt="TMU Campus"
-          width={500}
-          height={300}
-          layout="responsive"
-        />
-      </div>
     </ThemeProvider>
 
   );
