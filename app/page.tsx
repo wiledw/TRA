@@ -52,6 +52,7 @@ export default function Home() {
     <Image
       src={backgroundPic}
       alt="Picture of the TMU Campus"
+      
     />
     <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
       <CssBaseline />
