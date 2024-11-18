@@ -68,5 +68,14 @@ export default function Home() {
         
       </Box>
     </ThemeProvider>
+    <div>
+      <Image
+        src="/your-local-image.png"
+        alt="TMU Campus"
+        width={500}
+        height={300}
+        layout="responsive"
+      />
+    </div>
   );
 }
