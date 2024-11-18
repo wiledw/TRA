@@ -49,11 +49,6 @@ export default function Home() {
   };
 
   return (
-    <Image
-      src={backgroundPic}
-      alt="Picture of the TMU Campus"
-      
-    />
     <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
       <CssBaseline />
       <NavBar
@@ -73,6 +68,9 @@ export default function Home() {
       >
       </Box>
     </ThemeProvider>
-
+    <Image
+      src={backgroundPic}
+      alt="Picture of the TMU Campus"
+    />
   );
 }
