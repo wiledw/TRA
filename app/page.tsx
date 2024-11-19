@@ -66,11 +66,15 @@ export default function Home() {
           paddingTop: '64px', 
         }}
       >
+        <Image
+          src={backgroundPic}
+          alt="Picture of the TMU Campus"
+          style={{
+            width: '50%',
+            
+          }}
+        />
       </Box>
     </ThemeProvider>
-    <Image
-      src={backgroundPic}
-      alt="Picture of the TMU Campus"
-    />
   );
 }
