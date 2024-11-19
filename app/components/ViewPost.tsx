@@ -20,4 +20,15 @@ export default function ViewPostings({
     }
   }: {
     post: Post
-  })
+  }) {
+
+
+return <div className="border flex items-center justify-between">
+    <h2>{title}</h2>
+    <div>
+      <span>upvote</span>
+      <span>{votes?.length} votes</span>
+      <span>downvote</span>
+    </div>
+  </div>;
+}
