@@ -70,10 +70,11 @@ export default function Home() {
         <Image
           src={backgroundPic}
           alt="Picture of the TMU Campus"
-          style={{
-            width: '50%',
+          fill
+          //style={{
+            //width: '50%',
             
-          }}
+          //}}
         />
       </Box>
     </ThemeProvider>
