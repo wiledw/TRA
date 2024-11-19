@@ -25,13 +25,15 @@ export default function ViewPostings({
     post: Post
   }) {
 
-
+//Add someoneVoted backend functionality and vote instance functionality for backend.
+//How are we handling pin?
 return <div className="border flex items-center justify-between">
+    <h1>{username} + " " + {geolocation}</h1>
     <h2>{title}</h2>
     <div>
-      <span>upvote</span>
+      <span onClick={() => someoneVoted(id, true)}>upvote</span>
       <span>{votes?.length} votes</span>
-      <span>downvote</span>
+      <span onClick={() => someoneVoted(id, false)}>downvote</span>
     </div>
   </div>;
 }
