@@ -69,9 +69,12 @@ export default function Home() {
         <Image
           src={backgroundPic}
           alt="Picture of the TMU Campus"
+          placeholder="blur"
+          quality={100}
+          fill
+          sizes="100vw"
           style={{
-            width: '50%',
-            
+            objectFit: 'cover',  
           }}
         />
       </Box>
