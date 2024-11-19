@@ -49,6 +49,7 @@ export default function Home() {
   };
 
   return (
+    
     <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
       <CssBaseline />
       <NavBar
@@ -58,26 +59,45 @@ export default function Home() {
         role={userRole}
         handleLogout={handleLogout}
       />
-      <Box
-        sx={{
-          bgcolor: 'background.default',
-          color: 'text.primary', 
-          minHeight: '100vh',
-          paddingTop: '64px', 
-        }}
-      >
+      
+      
+        <div style={{
+          zIndex: -1,
+          position: "fixed",
+          width: "100vw",
+          height: "100vh"
+          
+
+
+
+        }}>
+
         <Image
           src={backgroundPic}
           alt="Picture of the TMU Campus"
+          objectFit='cover'
           placeholder="blur"
           quality={100}
-          fill
+          fill={true}
           sizes="100vw"
           style={{
-            objectFit: 'cover',  
+            objectFit: 'cover',
+            
+            
           }}
+          
         />
-      </Box>
+        </div>
+        <h1 style={{
+          paddingTop: "30vh",
+          fontFamily: "monospace",
+          fontSize: "3.5rem",
+          fontWeight: "bold",
+          textAlign: "center",
+          color: "red"
+
+        }}> TMU Report App</h1>
+
     </ThemeProvider>
   );
 }
