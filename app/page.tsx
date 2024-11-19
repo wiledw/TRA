@@ -66,9 +66,6 @@ export default function Home() {
           position: "fixed",
           width: "100vw",
           height: "100vh"
-          
-
-
 
         }}>
 
@@ -81,21 +78,17 @@ export default function Home() {
           fill={true}
           sizes="100vw"
           style={{
-            objectFit: 'cover',
-            
-            
+            objectFit: 'cover',  
           }}
-          
         />
         </div>
         <h1 style={{
-          paddingTop: "30vh",
-          fontFamily: "monospace",
+          paddingTop: "20vh",
+          fontFamily: "arial",
           fontSize: "3.5rem",
-          fontWeight: "bold",
+          fontWeight: "900",
           textAlign: "center",
           color: "red"
-
         }}> TMU Report App</h1>
 
     </ThemeProvider>
