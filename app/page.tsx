@@ -71,7 +71,6 @@ export default function Home() {
           src={backgroundPic}
           alt="Picture of the TMU Campus"
           style={{
-            backgroundImage: `url(${backgroundPic.src})`,
             width: '100%',
             height: '100%', 
           }}
