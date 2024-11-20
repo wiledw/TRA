@@ -38,8 +38,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Team Members
 
-William Gunawan - william.gunawan@torontomu.ca - 501123334
-James Saccutelli - jsaccutelli@torontomu.ca - 501099152
-Nicolas Avramidis - nicolas.avramidis@torontomu.ca - 501122487
-William Chau - william.chau@torontomu.ca - 501002768
-Jasvin Rasakopalu - jasvin.rasakopalu@torontomu.ca - 501049864
+- William Gunawan - william.gunawan@torontomu.ca - 501123334
+- James Saccutelli - jsaccutelli@torontomu.ca - 501099152
+- Nicolas Avramidis - nicolas.avramidis@torontomu.ca - 501122487
+- William Chau - william.chau@torontomu.ca - 501002768
+- Jasvin Rasakopalu - jasvin.rasakopalu@torontomu.ca - 501049864
