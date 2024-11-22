@@ -10,8 +10,9 @@ export async function GET() {
     // Fetch all posts from the 'posts' table
     const { data, error } = await supabase
       .from('posts')
-      .select('*')
+      .select('*, user(role)')
       .order('created_at', { ascending: false });
+      
 
     if (error) {
       console.error('Error fetching posts:', error);
