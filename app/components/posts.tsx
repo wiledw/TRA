@@ -28,28 +28,30 @@ const Posts = () => {
   }, [supabase]);
 
   // Update votes in the database and locally
-  const handleVote = async (postId: string, voteType: "up_vote" | "down_vote") => {
-    const postIndex = posts.findIndex((post) => post.id === postId);
-    console.log(postIndex);
-    if (postIndex === -1) return;
+  const handleVote = async (postId: string, voteType: "up_vote" | "down_vote") => 
+    {
+        const postIndex = posts.findIndex((post) => post.id === postId);
+        console.log(postIndex);
+        if (postIndex === -1) return;
 
-    const updatedVoteCount = posts[postIndex][voteType] + 1;
+        const updatedVoteCount = posts[postIndex][voteType] + 1;
 
-    const { error } = await supabase
-      .from("posts")
-      .update({ [voteType]: updatedVoteCount })
-      .eq("id", postId);
-    
-    console.error("Error updating vote:", error);
-    if (error) {
-      console.error("Error updating vote:", error);
-      return;
-    }
+        const { error } = await supabase
+        .from("posts")
+        .update({ [voteType]: updatedVoteCount })
+        .eq("id", postId);
+        
+        console.log("voteType:", [voteType]);
+        console.error("Error updating vote:", error);
+        if (error) {
+        console.error("Error updating vote:", error);
+        return;
+        }
 
-    // Update the post locally
-    const updatedPosts = [...posts];
-    updatedPosts[postIndex][voteType] = updatedVoteCount;
-    setPosts(updatedPosts);
+        // Update the post locally
+        const updatedPosts = [...posts];
+        updatedPosts[postIndex][voteType] = updatedVoteCount;
+        setPosts(updatedPosts);
   };
 
   return (
