@@ -58,16 +58,36 @@ export default function Home() {
         role={userRole}
         handleLogout={handleLogout}
       />
-      <Box
-        sx={{
-          bgcolor: 'background.default',
-          color: 'text.primary', 
-          minHeight: '100vh',
-          paddingTop: '64px', 
-        }}
-      >
+      <div style={{
+          zIndex: -1,
+          position: "fixed",
+          width: "100vw",
+          height: "100vh"
+
+        }}>
+
+        <Image
+          src={backgroundPic}
+          alt="Picture of the TMU Campus"
+          objectFit='cover'
+          placeholder="blur"
+          quality={100}
+          fill={true}
+          sizes="100vw"
+          style={{
+            objectFit: 'cover',  
+          }}
+        />
+        </div>
+        <h1 style={{
+          paddingTop: "20vh",
+          fontFamily: "arial",
+          fontSize: "3.5rem",
+          fontWeight: "900",
+          textAlign: "center",
+          color: "red"
+        }}> TMU Report App</h1>
         <Admin />
-      </Box>
     </ThemeProvider>
   );
 }
