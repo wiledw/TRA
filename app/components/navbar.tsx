@@ -43,6 +43,10 @@ function NavBar({ mode, toggleColorMode, user, role, handleLogout }: AppAppBarPr
     }
   };
 
+  const handleCreatePostClick = () => {
+    router.push('/create_post');
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -116,6 +120,15 @@ function NavBar({ mode, toggleColorMode, user, role, handleLogout }: AppAppBarPr
                   </Typography>
                 </MenuItem>
               )}
+            </Box>
+
+            {/* Create a Post */}
+            <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
+              <MenuItem onClick={handleCreatePostClick}>
+                <Typography variant="body2" color="text.primary">
+                  Create Post
+                </Typography>
+              </MenuItem>
             </Box>
 
             {/* Toggle Color Mode */}
