@@ -7,7 +7,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function GET() {
   try {
-    // Fetch all posts from the 'posts' table where archived is false and user is not banned, order descending by date created
+    // Fetch all posts from the 'posts' table where archived is false, order descending by date created
     const { data, error } = await supabase
       .from('posts')
       .select('*, user(email, banned)')
