@@ -20,7 +20,8 @@ export async function GET() {
       return NextResponse.json({ error: 'Error fetching posts' }, { status: 500 });
     }
 
-    return NextResponse.json(data, { status: 200 });
+    const filtered = data.filter(item => item.user.banned !== true);
+    return NextResponse.json(filtered, { status: 200 });
   } catch (err) {
     console.error('Unexpected error:', err);
     return NextResponse.json({ error: 'Unexpected error occurred' }, { status: 500 });

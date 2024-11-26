@@ -11,16 +11,18 @@ export async function GET() {
     const { data, error } = await supabase
       .from('posts')
       .select('*, user(email, banned)')
-      .match({ 'archived': false, 'user.banned': false })
+      .match({ 'archived': false })
       .order('created_at', { ascending: false });
       
-
+    
+    
     if (error) {
       console.error('Error fetching posts:', error);
       return NextResponse.json({ error: 'Error fetching posts' }, { status: 500 });
     }
 
-    return NextResponse.json(data, { status: 200 });
+    const filtered = data.filter(item => item.user.banned !== true);
+    return NextResponse.json(filtered, { status: 200 });
   } catch (err) {
     console.error('Unexpected error:', err);
     return NextResponse.json({ error: 'Unexpected error occurred' }, { status: 500 });
