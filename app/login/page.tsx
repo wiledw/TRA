@@ -83,7 +83,7 @@ export default function LoginPage() {
         router.refresh(); // Refresh the router to update the state
         setEmail(""); // Clear the email input
         setPassword(""); // Clear the password input
-        router.push('/');
+        router.push('/home');
       }
     } catch (error) {
       console.error("Unexpected error during sign-in:", error);

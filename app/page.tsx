@@ -1,97 +1,90 @@
 "use client"
-import React, { useState, useEffect } from 'react';
-import { Box, PaletteMode } from '@mui/material';
-import NavBar from './components/navbar';
-import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import getLPTheme from './getLPTheme';
+
+import React from 'react';
+import { Button, Box, Typography, Container } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import backgroundPic from '../app/img/TMUCampus.png';
+import tmuImage from '../app/img/TMUCampus.png';
 
 export default function Home() {
   const router = useRouter();
-  const [mode, setMode] = React.useState<PaletteMode>('light');
-  const [showCustomTheme, setShowCustomTheme] = React.useState(true);
-  const LPtheme = createTheme(getLPTheme(mode));
-  const defaultTheme = createTheme({ palette: { mode } });
-  const [user, setUser] = useState<any>(null);
-  const [userRole, setUserRole] = useState<string>("");
-  const supabase = createClientComponentClient();
-  
-  const toggleColorMode = () => {
-    setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  const toggleCustomTheme = () => {
-    setShowCustomTheme((prev) => !prev);
-  };
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setUser(user);
-      console.log(user);
-      if (user) {
-        const user_id = user.id;
-        const { data: userData } = await supabase.from('user').select('*').eq('id', user_id).single();
-        setUserRole(userData.role);
-        console.log(userData.role);
-      }
-    };
-    fetchUser();
-  }, [supabase.auth, userRole]);
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-    router.refresh();
-  };
 
   return (
-    <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
-      <CssBaseline />
-      <NavBar
-        mode="light" 
-        toggleColorMode={toggleColorMode}
-        user={user}
-        role={userRole}
-        handleLogout={handleLogout}
+    <Box sx={{ 
+      position: 'relative', 
+      minHeight: '100vh',
+      width: '100vw',
+      overflow: 'hidden'
+    }}>
+      {/* Background Image */}
+      <Image
+        src={tmuImage}
+        alt="Toronto Metropolitan University"
+        fill
+        style={{ 
+          objectFit: 'cover',
+          zIndex: -1
+        }}
+        priority
       />
-      
-        <div style={{
-          zIndex: -1,
-          position: "fixed",
-          width: "100vw",
-          height: "100vh"
 
+      {/* Full Page Overlay */}
+      <Box sx={{ 
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        zIndex: 0
+      }}>
+        {/* Content */}
+        <Container sx={{ 
+          height: '100%',
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center',
         }}>
-
-        <Image
-          src={backgroundPic}
-          alt="Picture of the TMU Campus"
-          objectFit='cover'
-          placeholder="blur"
-          quality={100}
-          fill={true}
-          sizes="100vw"
-          style={{
-            objectFit: 'cover',  
-          }}
-        />
-        </div>
-        <h1 style={{
-          paddingTop: "20vh",
-          fontFamily: "arial",
-          fontSize: "3.5rem",
-          fontWeight: "900",
-          textAlign: "center",
-          color: "red"
-        }}> TMU Report App</h1>
-
-    </ThemeProvider>
+          <Box sx={{ textAlign: 'center' }}>
+            <Typography variant="h2" sx={{ 
+              mb: 2, 
+              fontWeight: 'bold', 
+              color: 'white',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+            }}>
+              Welcome to TRA
+            </Typography>
+            <Typography variant="h5" sx={{ 
+              mb: 4, 
+              color: 'white',
+              textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
+            }}>
+              Toronto Metropolitan University Safe Portal
+            </Typography>
+            <Button 
+              variant="contained" 
+              size="large"
+              onClick={() => router.push('/login')}
+              sx={{ 
+                px: 6,
+                py: 1.5,
+                borderRadius: 2,
+                fontSize: '1.2rem',
+                textTransform: 'none',
+                boxShadow: '0 4px 6px rgba(0,0,0,0.2)',
+                backgroundColor: 'white',
+                color: 'primary.main',
+                '&:hover': {
+                  backgroundColor: 'rgba(255,255,255,0.9)',
+                }
+              }}
+            >
+              Login to Continue
+            </Button>
+          </Box>
+        </Container>
+      </Box>
+    </Box>
   );
 }

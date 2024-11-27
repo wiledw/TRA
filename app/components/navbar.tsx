@@ -11,6 +11,11 @@ import ToggleColorMode from './ToggleColorMode';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import tmuLogoImage from '../img/tmu-logo.png';
+import { useState, useEffect } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import stockProfilePic from '../img/stockProfilePic.jpg';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
 
 interface AppAppBarProps {
   mode: PaletteMode;
@@ -20,24 +25,32 @@ interface AppAppBarProps {
   handleLogout: () => void;
 }
 
-function NavBar({ mode, toggleColorMode, user, role, handleLogout }: AppAppBarProps) {
+function NavBar({ mode, user, role, handleLogout }: AppAppBarProps) {
   const router = useRouter();
+  const [userData, setUserData] = useState<any>(null);
+  const supabase = createClientComponentClient();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data?.session?.user) {
+        console.log('data', data);
+        setUserData(data.session.user);
+      }
+    };
+
+    fetchUserData();
+  }, [supabase.auth]);
 
   const handleHomeClick = () => {
     router.push('/');
   };
 
-  const handleProfileClick = () => {
-    if (user) {
-      router.push('/profile');
-    } else {
-      router.push('/login');
-    }
-  };
-
   const handleAdminClick = () => {
-    if (user && role === "admin") {
-      router.push('/admin');
+    if (user) {
+      router.push('/postsUser');
     } else {
       router.push('/login');
     }
@@ -45,6 +58,19 @@ function NavBar({ mode, toggleColorMode, user, role, handleLogout }: AppAppBarPr
 
   const handleCreatePostClick = () => {
     router.push('/create_post');
+  };
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleSignOut = () => {
+    handleMenuClose();
+    handleLogout();
   };
 
   return (
@@ -106,44 +132,73 @@ function NavBar({ mode, toggleColorMode, user, role, handleLogout }: AppAppBarPr
               </MenuItem>
 
               {user && (
-                <MenuItem onClick={handleProfileClick}>
-                  <Typography variant="body2" color="text.primary">
-                    Profile
-                  </Typography>
-                </MenuItem>
-              )}
-
-              {user && (role === "admin") && (
                 <MenuItem onClick={handleAdminClick}>
                   <Typography variant="body2" color="text.primary">
-                    Admin
+                    Post
+                  </Typography>
+                </MenuItem>
+              )}
+
+              {user && (
+                <MenuItem onClick={handleCreatePostClick}>
+                  <Typography variant="body2" color="text.primary">
+                    Create Post
                   </Typography>
                 </MenuItem>
               )}
             </Box>
 
-            {/* Create a Post */}
-            <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
-              <MenuItem onClick={handleCreatePostClick}>
-                <Typography variant="body2" color="text.primary">
-                  Create Post
-                </Typography>
-              </MenuItem>
-            </Box>
+      
 
-            {/* Toggle Color Mode */}
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-
-              {user ? (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  size="small"
-                  onClick={handleLogout}
-                >
-                  Sign Out
-                </Button>
+            {/* Replace the user profile and sign out button section */}
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mr: 2 }}>
+              {user && userData ? (
+                <>
+                  <IconButton
+                    onClick={handleMenuOpen}
+                    aria-controls={open ? 'profile-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                  >
+                    <Image
+                      src={userData.user_metadata?.avatar_url || stockProfilePic.src}
+                      alt="User Avatar"
+                      width={32}
+                      height={32}
+                      style={{
+                        borderRadius: '50%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                  </IconButton>
+                  <Menu
+                    id="profile-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleMenuClose}
+                    onClick={handleMenuClose}
+                    transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                    anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                    PaperProps={{
+                      elevation: 0,
+                      sx: {
+                        overflow: 'visible',
+                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                        mt: 1.5,
+                        '& .MuiAvatar-root': {
+                          width: 32,
+                          height: 32,
+                          ml: -0.5,
+                          mr: 1,
+                        },
+                      },
+                    }}
+                  >
+                    <MenuItem onClick={handleSignOut}>
+                      <Typography variant="body2">Sign out</Typography>
+                    </MenuItem>
+                  </Menu>
+                </>
               ) : (
                 <Button
                   color="primary"

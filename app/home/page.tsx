@@ -7,9 +7,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import getLPTheme from '../getLPTheme';
 import { useRouter } from 'next/navigation';
-import Admin from '../components/admin';
 import Image from 'next/image';
-import backgroundPic from '../img/TMUCampus.png';
+import backgroundPic from '../../app/img/TMUCampus.png';
 
 export default function Home() {
   const router = useRouter();
@@ -62,7 +61,8 @@ export default function Home() {
         role={userRole}
         handleLogout={handleLogout}
       />
-      <div style={{
+      
+        <div style={{
           zIndex: -1,
           position: "fixed",
           width: "100vw",
@@ -91,8 +91,7 @@ export default function Home() {
           textAlign: "center",
           color: "red"
         }}> TMU Report App</h1>
-        <Admin />
+
     </ThemeProvider>
   );
 }
-
