@@ -5,20 +5,24 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    // Fetch all posts from the 'posts' table where archived is true, order descending by date created
+    const { searchParams } = new URL(request.url);
+    const postId = searchParams.get('postId');
+
+    if (!postId) {
+      return NextResponse.json({ error: 'post ID is required' }, { status: 400 });
+    }
+
+    // archiving post
     const { data, error } = await supabase
-      .from('posts')
-      .select('*, user(email)')
-      .match({ 'archived': false, 'user.banned': false })
-      .order('pinned', {ascending: false})
-      .order('created_at', { ascending: false });
-      
+        .from('posts')
+        .update({ pinned: true })
+        .eq('id', postId);
 
     if (error) {
-      console.error('Error fetching posts:', error);
-      return NextResponse.json({ error: 'Error fetching posts' }, { status: 500 });
+      console.error('Error pinning post:', error);
+      return NextResponse.json({ error: 'Error pinning post' }, { status: 500 });
     }
 
     return NextResponse.json(data, { status: 200 });

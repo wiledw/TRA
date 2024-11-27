@@ -12,6 +12,7 @@ export async function GET() {
       .from('posts')
       .select('*, user(email, banned)')
       .match({ 'archived': false })
+      .order('pinned', {ascending: false})
       .order('created_at', { ascending: false });
       
     
