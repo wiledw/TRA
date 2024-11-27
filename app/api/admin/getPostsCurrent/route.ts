@@ -5,6 +5,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// takes no input, returns array of jsons of non-archived posts with all post columns plus email and ban status of user who created post on success
 export async function GET() {
   try {
     // Fetch all posts from the 'posts' table where archived is false, order descending by date created

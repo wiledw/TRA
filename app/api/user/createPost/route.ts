@@ -5,6 +5,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// takes a json with title, description, image, array of locations, and created_by user id and adds new post in post table. Returns null on success
 export async function POST(request: Request) {
   try {
     // Parse the JSON body from the request

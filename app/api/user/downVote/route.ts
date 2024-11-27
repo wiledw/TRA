@@ -5,6 +5,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// takes a postId search parameter, down votes post with that id, returns null on success
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

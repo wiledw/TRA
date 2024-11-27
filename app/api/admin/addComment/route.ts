@@ -5,6 +5,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// Takes a json with post_id and admin_comment, updates adming comment of post and returns null on sucess
 export async function POST(request: Request) {
   try {
     // Parse the JSON body from the request
