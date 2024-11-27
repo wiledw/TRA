@@ -7,14 +7,44 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import getLPTheme from "../getLPTheme";
 import { Box, PaletteMode, TextField, Button, Typography } from "@mui/material";
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
 
 export default function CreatePostPage() {
+    const router = useRouter();
     const [mode, setMode] = React.useState<PaletteMode>("light");
     const [showCustomTheme, setShowCustomTheme] = React.useState(true);
     const [titleInput, setTitleInput] = useState("");  // Separate state for Title
     const [descriptionInput, setDescriptionInput] = useState("");  // Separate state for Description
     const [image, setImage] = useState<File | null>(null);  // State for the uploaded image
     const [error, setError] = useState(false);
+    const [user, setUser] = useState<any>(null);
+    const [userRole, setUserRole] = useState<string>("");
+    const supabase = createClientComponentClient();
+
+    useEffect(() => {
+      const fetchUser = async () => {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        setUser(user);
+        console.log(user);
+        if (user) {
+          const user_id = user.id;
+          const { data: userData } = await supabase.from('user').select('*').eq('id', user_id).single();
+          setUserRole(userData.role);
+          console.log(userData.role);
+        }
+      };
+      fetchUser();
+    }, [supabase.auth, userRole]);
+
+    const handleLogout = async () => {
+      await supabase.auth.signOut();
+      setUser(null);
+      router.refresh();
+    };
+  
 
     // Create a ref to interact with the ClickMap component
     const clickMapRef = useRef<any>(null);
@@ -71,11 +101,11 @@ export default function CreatePostPage() {
       <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
         <CssBaseline />
         <NavBar
-          mode="light"
+          mode="light" 
           toggleColorMode={toggleColorMode}
-          user={null}
-          role=""
-          handleLogout={() => {}}
+          user={user}
+          role={userRole}
+          handleLogout={handleLogout}
         />
         <Box
           sx={{
