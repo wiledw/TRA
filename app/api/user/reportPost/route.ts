@@ -1,12 +1,7 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import nodemailer from 'nodemailer';
 
-// Supabase client initialization
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-// takes a json with user_Id and postId, adds new record to reports table, returns array with json of new record added
+// takes a json with user_Id and postId and sends email with this info to tmureportapp@protonmail.com, returns message on success
 export async function POST(request: Request) {
   try {
     // Parse the JSON body from the request
@@ -21,30 +16,46 @@ export async function POST(request: Request) {
       );
     }
 
-    // Insert a new record into the reports table
-    const { data, error } = await supabase.from('reports').insert({
-      reported_by: user_Id,
-      post_id: post_Id,
-    }).select();
+    // Configure the Mailgun SMTP transporter
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.mailgun.org',
+      port: 587,
+      secure: false, // Use STARTTLS
+      auth: {
+        user: 'postmaster@sandbox03795f7a4b41416a97b4d2054a809640.mailgun.org', // Replace with your Mailgun SMTP login
+        pass: '6c678ab0f3ff15d9f96f568b61ac139d-c02fd0ba-0d7f48b1', // Replace with your Mailgun SMTP password
+      },
+    });
 
-    if (error) {
-      console.error('Error creating report:', error);
-      return NextResponse.json(
-        { error: 'Failed to create a report.' },
-        { status: 500 }
-      );
-    }
+    // Define the email options
+    const mailOptions = {
+      from: '"TMU Report App" <postmaster@sandbox03795f7a4b41416a97b4d2054a809640.mailgun.org>', // Sender address
+      to: 'tmureportapp@protonmail.com', // Receiver address
+      subject: `New Report Submitted: Post ID ${post_Id}`,
+      text: `A new report has been submitted:\n\nPost ID: ${post_Id}\nReported By: ${user_Id}`,
+      html: `
+        <p>A new report has been submitted:</p>
+        <ul>
+          <li><strong>Post ID:</strong> ${post_Id}</li>
+          <li><strong>Reported By:</strong> ${user_Id}</li>
+        </ul>
+      `,
+    };
 
-    // Return the created report
-    console.log(data);
+    // Send the email
+    const info = await transporter.sendMail(mailOptions);
+
+    // Log the response for debugging
+    console.log('Email sent:', info.response);
+
     return NextResponse.json(
-      { message: 'Report created successfully.', report: data },
-      { status: 201 }
+      { message: 'Report email sent successfully.' },
+      { status: 200 }
     );
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error('Error sending email:', err);
     return NextResponse.json(
-      { error: 'Unexpected error occurred.' },
+      { error: 'Failed to send report email.' },
       { status: 500 }
     );
   }
