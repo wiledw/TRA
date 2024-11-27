@@ -2,7 +2,7 @@
 
 import React from "react";
 import NavBar from "../components/navbar";
-import ViewPosts from "../components/ViewPosts";
+import ViewPosts from "../components/ViewPostsUser";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import getLPTheme from "../getLPTheme";
@@ -28,7 +28,7 @@ export default function PostsPage() {
       <NavBar
         mode="light"
         toggleColorMode={toggleColorMode}
-        user={null} 
+        user={null}
         role=""
         handleLogout={() => {}}
       />
