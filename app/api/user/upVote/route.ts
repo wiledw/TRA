@@ -1,21 +1,20 @@
 import { createClient } from '@supabase/supabase-js';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// takes a postId search parameter, up votes post with that id, returns null on success
-export async function GET(request: Request) {
+export const dynamic = 'force-dynamic';
+
+export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const postId = searchParams.get('postId');
+    const postId = request.nextUrl.searchParams.get('postId');
 
     if (!postId) {
       return NextResponse.json({ error: 'postId is required' }, { status: 400 });
     }
 
-    // Increment the up_vote field by 1
     const { data, error } = await supabase
       .rpc('increment_uv', { x: 1, row_id: postId });
 
