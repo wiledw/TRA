@@ -23,6 +23,14 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
+  if (pathname === "/create_post" && !sessionData?.session) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  if (pathname === "/postsUser" && !sessionData?.session) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
   if (pathname === "/" && sessionData?.session) {
     return NextResponse.redirect(new URL("/home", req.url));
   }
@@ -40,5 +48,5 @@ export async function middleware(req: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/profile", "/admin", "/home", "/"]
+  matcher: ["/profile", "/admin", "/home", "/", "/postsUser", "/create_post"]
 };
