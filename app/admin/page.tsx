@@ -9,7 +9,7 @@ import getLPTheme from '../getLPTheme';
 import { useRouter } from 'next/navigation';
 import Admin from '../components/admin';
 import Image from 'next/image';
-import backgroundPic from '../app/img/TMUCampus.png';
+import backgroundPic from '../img/TMUCampus.png';
 
 export default function Home() {
   const router = useRouter();

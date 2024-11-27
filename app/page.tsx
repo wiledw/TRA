@@ -34,10 +34,11 @@ export default function Home() {
         data: { user },
       } = await supabase.auth.getUser();
       setUser(user);
+      console.log(user);
       if (user) {
-        const { data } = await supabase.from('user').select('*').single();
-        setUserRole(data.role);
-        console.log(userRole);
+        const { data: userData } = await supabase.from('user').select('*').single();
+        setUserRole(userData.role);
+        console.log(userData.role);
       }
     };
     fetchUser();
