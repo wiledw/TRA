@@ -1,15 +1,16 @@
 import { createClient } from '@supabase/supabase-js';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // takes a postId search parameter, pins post with that id, returns null on success
-export async function GET(request: Request) {
+export const dynamic = 'force-dynamic';
+
+export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const postId = searchParams.get('postId');
+    const postId = request.nextUrl.searchParams.get('postId');
 
     if (!postId) {
       return NextResponse.json({ error: 'post ID is required' }, { status: 400 });

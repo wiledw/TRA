@@ -5,6 +5,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// takes a postId search parameter, up votes post with that id, returns null on success
+
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
