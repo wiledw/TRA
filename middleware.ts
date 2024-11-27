@@ -10,7 +10,8 @@ export async function middleware(req: NextRequest) {
 
   const supabase = createMiddlewareClient({req, res});
   const {data: sessionData } = await supabase.auth.getSession();
-  const { data: userData } = await supabase.from('user').select('*').single();
+  const user_id = sessionData?.session?.user.id;
+  const { data: userData } = await supabase.from('user').select('*').eq('id', user_id).single();
   
 
   // protected routes

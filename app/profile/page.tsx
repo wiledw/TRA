@@ -33,10 +33,12 @@ export default function Home() {
         data: { user },
       } = await supabase.auth.getUser();
       setUser(user);
+      console.log(user);
       if (user) {
-        const { data } = await supabase.from('user').select('*').single();
-        setUserRole(data.role);
-        console.log(userRole);
+        const user_id = user.id;
+        const { data: userData } = await supabase.from('user').select('*').eq('id', user_id).single();
+        setUserRole(userData.role);
+        console.log(userData.role);
       }
     };
     fetchUser();

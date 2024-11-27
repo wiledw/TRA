@@ -36,7 +36,8 @@ export default function Home() {
       setUser(user);
       console.log(user);
       if (user) {
-        const { data: userData } = await supabase.from('user').select('*').single();
+        const user_id = user.id;
+        const { data: userData } = await supabase.from('user').select('*').eq('id', user_id).single();
         setUserRole(userData.role);
         console.log(userData.role);
       }
