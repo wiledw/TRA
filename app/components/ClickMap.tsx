@@ -169,4 +169,6 @@ const ClickMap = React.forwardRef((props, ref) => {
   );
 });
 
+ClickMap.displayName = 'ClickMap';
+
 export default ClickMap;
