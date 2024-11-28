@@ -2,6 +2,7 @@
 
 import { useEffect, useState, FormEvent } from "react";
 import Modal from 'react-modal';
+import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import pushPin from "../img/push_pin.png";
@@ -12,14 +13,13 @@ const Posts = () => {
 
     const [user, setUser] = useState<any>(null);
     const [userRole, setUserRole] = useState<string>("");
-    const [commentText, setCommentText] = useState<string>("");
 
     const [pinNotif, setPinNotif] = useState(false);
     const [archiveNotif, setArchiveNotif] = useState(false);
     const [banNotif, setBanNotif] = useState(false);
     const [unbanNotif, setUnbanNotif] = useState(false);
 
-    const [commentBox, setCommentBox] = useState(false);
+    const router = useRouter();
 
     // Styling for the popup
     const customStyles = {
@@ -139,18 +139,18 @@ const Posts = () => {
     // Add admin comment to post using API
     const comment = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        const postIndex = posts.findIndex((post) => post.id === (event.currentTarget.elements[0] as HTMLInputElement).value);
-        console.log(postIndex);
-        if (postIndex === -1) return;
+
+        const postId = (event.currentTarget.elements[0] as HTMLInputElement).value;
+        console.log((event.currentTarget.elements[0] as HTMLInputElement).value);
+        const adminComment = (event.currentTarget.elements[1] as HTMLInputElement).value;
 
         // API call
         fetch('api/admin/addComment', {
             method: "POST",
-            body: formData
+            body: JSON.stringify({post_id: postId, admin_comment: adminComment})
         })
 
-        setCommentBox(false);
+        router.refresh();
     }
 
 
@@ -275,29 +275,20 @@ const Posts = () => {
                 {post.admin_comment || "None"}
             </p>
             <div>
-                <button onClick={() => setCommentBox(true)}
-                className="mr-4 px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600" >
-                    Add Admin Comment
-                </button>
-                <Modal isOpen={commentBox} onRequestClose={() => setCommentBox(false)} style={customStyles}>
-                <div>
-                    <div className="pb-3 flex text-lg text-center bg-white text-black">
-                    <p>Please Enter Your Comment</p>
-                    </div>
-                    <form className="pt-2 pb-2" onSubmit={() => comment}>
-                        <label className="pl-1 pr-1 text-black border-black border-spacing-2">
-                            Post ID: <input className="border-black" type="text" name="post_id" value={post.id} readOnly={true} />
-                        </label>
-                        <label className="pl-1 pr-1 text-black border-black border-spacing-2">
-                            Enter your comment: <input type="text" name="admin_comment" required/>
-                        </label>
-                        <button className="pl-1 pr-1 text-black bg-slate-300 hover:bg-slate-400 rounded" type="submit">Submit</button>
-                    </form>
-                    <div>
-                    <button className="flex mr-auto ml-auto max-w-fit px-4 py-2 rounded bg-slate-500 hover:bg-slate-600" onClick={() => setCommentBox(false)}>Return</button>
-                    </div>
-                </div>
-                </Modal>
+                <p className="flex items-start justify-between mt-4 font-semibold">
+                    Enter Admin Comment Here:
+                </p>
+            </div>
+            <div>
+                <form className="pt-2 pb-2" onSubmit={comment}>
+                    <label className="pl-1 pr-1 text-black border-black border-spacing-2">
+                        Post ID: <input className="border-black" type="text" name="post_id" defaultValue={post.id} />
+                    </label>
+                    <label className="pl-1 pr-1 text-black border-black border-spacing-2">
+                        Enter your comment: <input type="text" name="admin_comment" required/>
+                    </label>
+                    <button className="pl-1 pr-1 text-black bg-slate-300 hover:bg-slate-400 rounded" type="submit">Add Admin Comment</button>
+                </form>
             </div>
             </div>
         ))}

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import NavBar from "../components/navbar";
-import ViewPosts from "../components/ViewPostsAdmin";
+import Posts from "../components/ViewPostsAdmin";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import getLPTheme from "../getLPTheme";
@@ -70,7 +70,7 @@ export default function PostsPage() {
           paddingTop: "64px",
         }}
       >
-        <ViewPosts />
+        <Posts />
       </Box>
     </ThemeProvider>
   );
