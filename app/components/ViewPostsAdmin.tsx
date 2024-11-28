@@ -145,12 +145,12 @@ const Posts = () => {
         const adminComment = (event.currentTarget.elements[1] as HTMLInputElement).value;
 
         // API call
-        fetch('api/admin/addComment', {
+        await fetch('api/admin/addComment', {
             method: "POST",
             body: JSON.stringify({post_id: postId, admin_comment: adminComment})
-        })
+        });
 
-        router.refresh();
+        window.location.reload();
     }
 
 
