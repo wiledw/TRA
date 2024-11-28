@@ -37,11 +37,11 @@ export default function PostsPage() {
       fetchUser();
     }, [supabase.auth, userRole]);
 
-    const handleLogout = async () => {
-      await supabase.auth.signOut();
-      setUser(null);
-      router.refresh();
-    };
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    router.refresh();
+  };
   
 
   const toggleColorMode = () => {

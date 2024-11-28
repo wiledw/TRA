@@ -11,8 +11,7 @@ export async function middleware(req: NextRequest) {
   const supabase = createMiddlewareClient({req, res});
   const {data: sessionData } = await supabase.auth.getSession();
   const user_id = sessionData?.session?.user.id;
-  const { data: userData } = await supabase.from('user').select('*').eq('id', user_id).single();
-  
+  const { data: userData } = await supabase.from('user').select('*').eq('id', user_id).single();  
 
   // protected routes
   if (pathname === "/profile" && !sessionData?.session) {
@@ -31,12 +30,16 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/postsUser", req.url));
   }
 
-  if (pathname === "/admin" && !sessionData?.session) {
-    return NextResponse.redirect(new URL("/login", req.url));
+  if (pathname === "/postsAdmin" && !sessionData?.session) {
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
-  if (pathname === "/admin" && sessionData?.session && userData.role !== "admin") {
-    return NextResponse.redirect(new URL("/", req.url));
+  if (pathname === "/postsAdmin" && sessionData?.session && userData.role !== "admin") {
+    return NextResponse.redirect(new URL("/postsUser", req.url));
+  }
+
+  if (pathname === "/postsUser" && sessionData?.session && userData.role !== "user") {
+    return NextResponse.redirect(new URL("/postsAdmin", req.url));
   }
 
   return res;
