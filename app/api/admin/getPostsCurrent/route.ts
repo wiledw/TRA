@@ -12,7 +12,7 @@ export async function GET() {
     const { data, error } = await supabase
       .from('posts')
       .select('*, user(email, banned)')
-      .match({ 'archived': false, 'user.banned': false })
+      //.match({ 'archived': false, 'user.banned': false })
       .order('pinned', {ascending: false})
       .order('created_at', { ascending: false });
       
