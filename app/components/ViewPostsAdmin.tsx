@@ -172,7 +172,7 @@ const Posts = () => {
             <h2 className="text-xl font-bold mb-2">{post.title}</h2>
             <p className="text-gray-700 mb-4">{post.description}</p>
             <p className="text-lg font-semibold mb-3">
-                Location: {post.locations}
+                Location: {post.locations.length > 1 ? post.locations.join(', ') : post.locations[0]}
             </p>
             {post.image && (
                 <div className="mb-4">
