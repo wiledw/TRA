@@ -156,7 +156,7 @@ const ClickMap = React.forwardRef((props, ref) => {
           style={{
             left: `${(imgSize.width * (point.xPercent / 100)) + imgPosition.left}px`,
             top: `${(imgSize.height * (point.yPercent / 100)) + imgPosition.top - 64}px`, //64 is the create_post page padding offset
-            transform: "translate(0%, -1500%)",
+            transform: "translate(-150%, -1600%)",
             width: "20px", // You can adjust the size of the ping
             height: "20px", // Make it the same as width for a circular shape
             borderRadius: "50%", // This ensures the button is circular
