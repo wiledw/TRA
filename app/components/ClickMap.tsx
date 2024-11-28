@@ -129,6 +129,9 @@ const ClickMap = React.forwardRef((props, ref) => {
 
     window.addEventListener("resize", updateImgData);
 
+    setMapPoints([]);
+    window.scrollTo(0, 0);
+
     return () => {
       window.removeEventListener("resize", updateImgData);
     };
