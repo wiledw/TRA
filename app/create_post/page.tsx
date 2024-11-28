@@ -8,7 +8,10 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import getLPTheme from "../getLPTheme";
 import { Box, PaletteMode, TextField, Button, Typography } from "@mui/material";
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from "next/navigation";
+import Image from 'next/image';
 
 export default function CreatePostPage() {
     const router = useRouter();
@@ -38,12 +41,6 @@ export default function CreatePostPage() {
       };
       fetchUser();
     }, [supabase.auth, userRole]);
-
-    const handleLogout = async () => {
-      await supabase.auth.signOut();
-      setUser(null);
-      router.refresh();
-    };
   
 
     // Create a ref to interact with the ClickMap component
@@ -82,11 +79,10 @@ export default function CreatePostPage() {
       }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!titleInput || !descriptionInput) {
             setError(true); // Show error if any field is empty
         } else {
-            // Proceed with form submission or other actions
             setError(false);
             console.log("Title submitted:", titleInput);
             console.log("Description submitted:", descriptionInput);
@@ -94,7 +90,69 @@ export default function CreatePostPage() {
 
             const points = handleGetMapPoints();
             console.log("Map locations submitted:", points);
+            const labels = points.map((point: { label: string }) => point.label);
+            console.log("Extracted labels:", labels);
+
+            // Prepare the data to be sent
+            const postData = {
+                title: titleInput,
+                description: descriptionInput,
+                image: "", // Placeholder for the image URL
+                locations: labels,
+                created_by: user.id,
+            };
+
+            try {
+                // Upload the image to Supabase Storage
+                if (image) {
+                    const { data, error: uploadError } = await supabase.storage
+                        .from('postImage')
+                        .upload(`public/${image.name}`, image, {
+                            cacheControl: '3600',
+                            upsert: false,
+                        });
+
+                    if (uploadError) {
+                        throw uploadError;
+                    }
+
+                    // Get the public URL of the uploaded image
+                    const { data : { publicUrl } } = supabase.storage
+                        .from('postImage')
+                        .getPublicUrl(`public/${image.name}`);
+
+                    // Update postData with the image URL
+                    postData.image = publicUrl;
+                }
+
+                // Send the post data to the API
+                const response = await fetch('/api/user/createPost', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(postData),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                console.log("Post created successfully:", data);
+                toast.success("Post created successfully!"); // Show success toast
+                router.push('/postsUser'); // Redirect to /postsUser
+            } catch (error) {
+                console.error('Error creating post:', error);
+                toast.error('Error creating post. Please try again.'); // Show error toast
+            }
         }
+    };
+
+    const handleLogout = async () => {
+      await supabase.auth.signOut();
+      setUser(null);
+      router.refresh();
     };
 
     return (
@@ -112,23 +170,24 @@ export default function CreatePostPage() {
             bgcolor: "background.default",
             color: "text.primary",
             minHeight: "100vh",
-            paddingTop: "64px"
-            //paddingX: 3,
+            paddingTop: "64px",
+            paddingX: 3,
           }}
         >
           {/* Combined Box for Title and Description */}
           <Box
             sx={{
-              backgroundColor: "grey.200", // Background color for the combined box
-              padding: 2, // Padding for spacing inside the box
-              borderRadius: 2, // Rounded corners
+              backgroundColor: "white",
+              padding: 3,
+              borderRadius: 2,
+              boxShadow: 3,
               display: 'flex',
-              flexDirection: 'column', // Stacks the TextFields vertically
-              alignItems: 'center', // Centers the TextFields horizontally
-              width: "60%", // Controls the overall width of the combined box
+              flexDirection: 'column',
+              alignItems: 'center',
+              width: "80%",
               marginTop: 3,
-              marginLeft: 'auto', // Centers the box horizontally
-              marginRight: 'auto', // Centers the box horizontally
+              marginLeft: 'auto',
+              marginRight: 'auto',
             }}
           >
             {/* Title TextField */}
@@ -137,12 +196,14 @@ export default function CreatePostPage() {
               variant="outlined"
               fullWidth
               required
-              value={titleInput} // Use titleInput for the Title field
+              value={titleInput}
               onChange={handleTitleChange}
-              error={error && !titleInput} // Only show error if Title is empty
+              error={error && !titleInput}
               helperText={error && !titleInput ? "This field is required" : ""}
               sx={{
-                marginBottom: 2, // Adds spacing between the Title and Description fields
+                marginBottom: 2,
+                backgroundColor: "white",
+                borderRadius: 1,
               }}
             />
 
@@ -152,12 +213,14 @@ export default function CreatePostPage() {
               variant="outlined"
               fullWidth
               required
-              value={descriptionInput} // Use descriptionInput for the Description field
+              value={descriptionInput}
               onChange={handleDescriptionChange}
-              error={error && !descriptionInput} // Only show error if Description is empty
+              error={error && !descriptionInput}
               helperText={error && !descriptionInput ? "This field is required" : ""}
               sx={{
-                marginBottom: 2, // Adds spacing between the Description and Image fields
+                marginBottom: 2,
+                backgroundColor: "white",
+                borderRadius: 1,
               }}
             />
 
@@ -168,11 +231,12 @@ export default function CreatePostPage() {
                 flexDirection: "column",
                 alignItems: "center",
                 marginTop: 2,
-                backgroundColor: "grey.200",
+                backgroundColor: "white",
                 padding: 2,
                 borderRadius: 2,
-                width: "100%", // Same width as other fields
-                border: "1px solid", // Optional border styling
+                width: "100%",
+                border: "1px solid",
+                borderColor: "grey.300",
               }}
             >
               <input
@@ -214,9 +278,10 @@ export default function CreatePostPage() {
               display: 'flex',
               justifyContent: 'center',  // Centers the button horizontally
               marginTop: 0,  // Adds some space above the button
+              paddingBottom: 10,
             }}
           >
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
+            <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ marginTop: 3 }}>
               Submit
             </Button>
           </Box>

@@ -19,10 +19,6 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  if (pathname === "/home" && !sessionData?.session) {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
-
   if (pathname === "/create_post" && !sessionData?.session) {
     return NextResponse.redirect(new URL("/", req.url));
   }
@@ -32,7 +28,7 @@ export async function middleware(req: NextRequest) {
   }
 
   if (pathname === "/" && sessionData?.session) {
-    return NextResponse.redirect(new URL("/home", req.url));
+    return NextResponse.redirect(new URL("/postsUser", req.url));
   }
 
   if (pathname === "/admin" && !sessionData?.session) {
@@ -48,5 +44,5 @@ export async function middleware(req: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/profile", "/admin", "/home", "/", "/postsUser", "/create_post"]
+  matcher: ["/profile", "/admin", "/", "/postsUser", "/create_post"]
 };
