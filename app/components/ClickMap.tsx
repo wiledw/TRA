@@ -133,15 +133,15 @@ const ClickMap = React.forwardRef((props, ref) => {
       window.removeEventListener("resize", updateImgData);
     };
   }, []);
-
+  
   return (
     <div className="relative flex justify-center items-center h-screen">
       <img
         ref={imgRef}
         src="/campus_map.png"
         alt="Map"
-        width={800}
-        height={600}
+        width={1078}
+        height={697}
         className="rounded-md shadow-lg"
         style={{ position: "absolute" }}
         onClick={handleClick}
@@ -153,7 +153,7 @@ const ClickMap = React.forwardRef((props, ref) => {
           style={{
             left: `${(imgSize.width * (point.xPercent / 100)) + imgPosition.left}px`,
             top: `${(imgSize.height * (point.yPercent / 100)) + imgPosition.top - 64}px`, //64 is the create_post page padding offset
-            transform: "translate(-50%, -50%)",
+            transform: "translate(0%, -1500%)",
             width: "20px", // You can adjust the size of the ping
             height: "20px", // Make it the same as width for a circular shape
             borderRadius: "50%", // This ensures the button is circular
