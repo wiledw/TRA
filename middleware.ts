@@ -38,7 +38,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/postsUser", req.url));
   }
 
-  if (pathname === "/postsUser" && sessionData?.session && userData.role !== "user") {
+  if (pathname === "/postsUser" && sessionData?.session && userData.role !== "student") {
     return NextResponse.redirect(new URL("/postsAdmin", req.url));
   }
 
