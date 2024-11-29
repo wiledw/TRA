@@ -1,5 +1,6 @@
 import { describe, test, expect } from '@jest/globals';
 import { POST as addComment } from '../../../app/api/admin/addComment/route';
+import { NextRequest } from 'next/server';
 
 jest.mock('@supabase/supabase-js', () => ({
   createClient: jest.fn(() => ({
@@ -27,7 +28,7 @@ describe('Admin Comment API Tests', () => {
   });
 
   test('Successfully add admin comment', async () => {
-    const request = new Request('http://localhost:3000/api/admin/addComment', {
+    const request = new NextRequest('http://localhost:3000/api/admin/addComment', {
       method: 'POST',
       body: JSON.stringify({
         post_id: '123',
@@ -39,7 +40,7 @@ describe('Admin Comment API Tests', () => {
   });
 
   test('Fail comment with missing fields', async () => {
-    const request = new Request('http://localhost:3000/api/admin/addComment', {
+    const request = new NextRequest('http://localhost:3000/api/admin/addComment', {
       method: 'POST',
       body: JSON.stringify({
         post_id: '123'

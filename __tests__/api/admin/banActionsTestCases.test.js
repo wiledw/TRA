@@ -1,6 +1,7 @@
 import { describe, test, expect } from '@jest/globals';
 import { GET as banUser } from '../../../app/api/admin/banUser/route';
 import { GET as unbanUser } from '../../../app/api/admin/unbanUser/route';
+import { NextRequest } from 'next/server';
 
 jest.mock('@supabase/supabase-js', () => ({
   createClient: jest.fn(() => ({
@@ -27,13 +28,13 @@ describe('Ban Actions API Tests', () => {
 
   // Ban User Tests
   test('Successfully ban a user', async () => {
-    const request = new Request('http://localhost:3000/api/admin/banUser?userId=123');
+    const request = new NextRequest('http://localhost:3000/api/admin/banUser?userId=123');
     const response = await banUser(request);
     expect(response.status).toBe(200);
   });
 
   test('Fail ban with missing userId', async () => {
-    const request = new Request('http://localhost:3000/api/admin/banUser');
+    const request = new NextRequest('http://localhost:3000/api/admin/banUser');
     const response = await banUser(request);
     expect(response.status).toBe(400);
     const data = await response.json();
@@ -42,13 +43,13 @@ describe('Ban Actions API Tests', () => {
 
   // Unban User Tests
   test('Successfully unban a user', async () => {
-    const request = new Request('http://localhost:3000/api/admin/unbanUser?userId=123');
+    const request = new NextRequest('http://localhost:3000/api/admin/unbanUser?userId=123');
     const response = await unbanUser(request);
     expect(response.status).toBe(200);
   });
 
   test('Fail unban with missing userId', async () => {
-    const request = new Request('http://localhost:3000/api/admin/unbanUser');
+    const request = new NextRequest('http://localhost:3000/api/admin/unbanUser');
     const response = await unbanUser(request);
     expect(response.status).toBe(400);
     const data = await response.json();
