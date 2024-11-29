@@ -5,12 +5,10 @@ import Modal from 'react-modal';
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import pushPin from "../img/push_pin.png";
-import { useRouter } from "next/router";
 
 export const dynamic = 'force-dynamic';
 
 const Posts = () => {
-  const router = useRouter();
   const [posts, setPosts] = useState<any[]>([]);
   const supabase = createClientComponentClient();
 
@@ -59,7 +57,6 @@ const Posts = () => {
         .then((data) => {
             console.log("Fetched posts:", data);
             setPosts(data || []);
-            router.reload();
         })
         .catch(error => console.error("Error fetching data: ", error));
   }, []);
