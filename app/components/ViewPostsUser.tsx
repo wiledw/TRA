@@ -6,6 +6,8 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import pushPin from "../img/push_pin.png";
 
+export const dynamic = 'force-dynamic';
+
 const Posts = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const supabase = createClientComponentClient();
