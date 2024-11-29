@@ -50,12 +50,14 @@ const Posts = () => {
 
   // Fetch posts using API route
   useEffect(() => {
-    fetch ('/api/user/getPostsCurrent', { cache: 'no-store' } )
+    fetch('/api/user/getPostsCurrent', { cache: 'no-store' })
         .then((res) => res.json())
-        .then((data) => setPosts(data || []))
-        .catch(error => console.error(
-            "Error fetching data: ", error));
-}, []);
+        .then((data) => {
+            console.log("Fetched posts:", data);
+            setPosts(data || []);
+        })
+        .catch(error => console.error("Error fetching data: ", error));
+  }, []);
 
 
 
