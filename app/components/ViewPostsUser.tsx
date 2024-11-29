@@ -52,7 +52,7 @@ const Posts = () => {
 
   // Fetch posts using API route
   useEffect(() => {
-    fetch('/api/user/getPostsCurrent', { cache: 'no-store' })
+    fetch('/api/user/getPostsCurrent')
         .then((res) => res.json())
         .then((data) => {
             console.log("Fetched posts:", data);

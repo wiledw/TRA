@@ -73,7 +73,7 @@ const Posts = () => {
 
     // Fetch posts using API route
     useEffect(() => {
-        fetch ('/api/admin/getPostsCurrent', { cache: 'no-store' } )
+        fetch ('/api/admin/getPostsCurrent')
             .then((res) => res.json())
             .then((data) => setPosts(data || []))
             .catch(error => console.error(
