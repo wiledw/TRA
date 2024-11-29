@@ -71,7 +71,7 @@ const Posts = () => {
 
     // Fetch posts using API route
     useEffect(() => {
-        fetch ('/api/admin/getPostsCurrent')
+        fetch ('/api/admin/getPostsCurrent', { cache: 'no-store' } )
             .then((res) => res.json())
             .then((data) => setPosts(data || []))
             .catch(error => console.error(
@@ -151,6 +151,7 @@ const Posts = () => {
         });
 
         window.location.reload();
+
     }
 
 
