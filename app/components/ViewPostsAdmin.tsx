@@ -242,7 +242,7 @@ const Posts = () => {
             <div className="flex items-end justify-between mt-4">
                 <p className="font-semibold">Post is currently archived</p>
                 <button onClick={() => pinPost(post.id)}
-                className="mr-4 px-4 py-2 bg-cyan-800 text-white rounded hover:bg-cyan-900 float-end">
+                className="px-4 py-2 bg-cyan-800 text-white rounded hover:bg-cyan-900 float-end">
                     Pin Post
                 </button>
                 <Modal isOpen={pinNotif} onRequestClose={() => setPinNotif(false)} style={customStyles}>
@@ -273,7 +273,7 @@ const Posts = () => {
                 </div>
                 </Modal>
                 <button onClick={() => pinPost(post.id)}
-                className="mr-4 px-4 py-2 bg-cyan-800 text-white rounded hover:bg-cyan-900 float-end">
+                className="px-4 py-2 bg-cyan-800 text-white rounded hover:bg-cyan-900 float-end">
                     Pin Post
                 </button>
                 <Modal isOpen={pinNotif} onRequestClose={() => setPinNotif(false)} style={customStyles}>
@@ -301,7 +301,7 @@ const Posts = () => {
             <div>
                 <form className="pt-2 pb-2" onSubmit={comment}>
                     <label className="pl-1 pr-1 text-black border-black border-spacing-2">
-                        Post ID: <input className="border-black" type="text" name="post_id" defaultValue={post.id} />
+                        Post ID: <input className="border-black" type="text" name="post_id" defaultValue={post.id} readOnly={true}/>
                     </label>
                     <label className="pl-1 pr-1 text-black border-black border-spacing-2">
                         Enter your comment: <input type="text" name="admin_comment" required/>
