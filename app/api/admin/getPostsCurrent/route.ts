@@ -5,6 +5,9 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+export const dynamic = 'force-dynamic';
+
+
 // takes no input, returns array of jsons of non-archived posts with all post columns plus email and ban status of user who created post on success
 export async function GET() {
   try {
