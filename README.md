@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run npm install. You'll need to download the dependencies as per usual if you are running the project locally.
+First, run npm install. You'll need to download the dependencies as per usual if you are running the project locally
 
 
 Next, run the development server:
