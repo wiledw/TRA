@@ -10,6 +10,8 @@ import { Box, PaletteMode } from "@mui/material";
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default function PostsPage() {
   const router = useRouter();
   const [mode, setMode] = React.useState<PaletteMode>("light");
