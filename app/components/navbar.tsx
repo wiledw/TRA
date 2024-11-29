@@ -44,9 +44,11 @@ function NavBar({ mode, user, role, handleLogout }: AppAppBarProps) {
     fetchUserData();
   }, [supabase.auth]);
 
-  const handleAdminClick = () => {
-    if (user) {
+  const handlePostClick = () => {
+    if (user && role === 'student') {
       router.push('/postsUser');
+    } else if (user && role === 'admin') { 
+      router.push('/postsAdmin');
     } else {
       router.push('/login');
     }
@@ -122,7 +124,7 @@ function NavBar({ mode, user, role, handleLogout }: AppAppBarProps) {
             {/* Home Link */}
             <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
               {user && (
-                <MenuItem onClick={handleAdminClick}>
+                <MenuItem onClick={handlePostClick}>
                   <Typography variant="body2" color="text.primary">
                     Post
                   </Typography>

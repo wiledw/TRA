@@ -40,7 +40,7 @@ export default function PostsPage() {
     const handleLogout = async () => {
       await supabase.auth.signOut();
       setUser(null);
-      router.refresh();
+      router.push("/");
     };
 
 

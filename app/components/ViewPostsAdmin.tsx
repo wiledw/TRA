@@ -173,7 +173,7 @@ const Posts = () => {
             <h2 className="text-xl font-bold mb-2">{post.title}</h2>
             <p className="text-gray-700 mb-4">{post.description}</p>
             <p className="text-lg font-semibold mb-3">
-                Location: {post.locations}
+                Location: {post.locations.length > 1 ? post.locations.join(', ') : post.locations[0]}
             </p>
             {post.image && (
                 <div className="mb-4">
@@ -239,9 +239,28 @@ const Posts = () => {
                 </div>}
                 </div>
             </div>
+            {post.archived ?
+            <div className="flex items-end justify-between mt-4">
+                <p className="font-semibold">Post is currently archived</p>
+                <button onClick={() => pinPost(post.id)}
+                className="px-4 py-2 bg-cyan-800 text-white rounded hover:bg-cyan-900 float-end">
+                    Pin Post
+                </button>
+                <Modal isOpen={pinNotif} onRequestClose={() => setPinNotif(false)} style={customStyles}>
+                    <div>
+                        <div className="flex text-lg text-center bg-white text-black">
+                        <p>The post has been pinned.</p>
+                        </div>
+                        <div>
+                        <button className="flex mr-auto ml-auto max-w-fit px-4 py-2 rounded bg-slate-500 hover:bg-slate-600" onClick={() => setPinNotif(false)}>Return</button>
+                        </div>
+                    </div>
+                </Modal>
+            </div>
+            :
             <div className="flex items-end justify-between mt-4">
                 <button onClick={() => archivePost(post.id)}
-                className="mr-4 px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 float-end">
+                className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 float-end">
                 Archive Post
                 </button>
                 <Modal isOpen={archiveNotif} onRequestClose={() => setArchiveNotif(false)} style={customStyles}>
@@ -255,7 +274,7 @@ const Posts = () => {
                 </div>
                 </Modal>
                 <button onClick={() => pinPost(post.id)}
-                className="mr-4 px-4 py-2 bg-cyan-800 text-white rounded hover:bg-cyan-900 float-end">
+                className="px-4 py-2 bg-cyan-800 text-white rounded hover:bg-cyan-900 float-end">
                     Pin Post
                 </button>
                 <Modal isOpen={pinNotif} onRequestClose={() => setPinNotif(false)} style={customStyles}>
@@ -268,7 +287,7 @@ const Posts = () => {
                     </div>
                 </div>
                 </Modal>
-            </div>
+            </div>}
             <div className="flex items-start justify-between mt-4 text-lg font-bold">
                 Admin Comments:
             </div>
@@ -283,7 +302,7 @@ const Posts = () => {
             <div>
                 <form className="pt-2 pb-2" onSubmit={comment}>
                     <label className="pl-1 pr-1 text-black border-black border-spacing-2">
-                        Post ID: <input className="border-black" type="text" name="post_id" defaultValue={post.id} />
+                        Post ID: <input className="border-black" type="text" name="post_id" defaultValue={post.id} readOnly={true}/>
                     </label>
                     <label className="pl-1 pr-1 text-black border-black border-spacing-2">
                         Enter your comment: <input type="text" name="admin_comment" required/>
