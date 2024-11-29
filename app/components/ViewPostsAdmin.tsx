@@ -196,12 +196,12 @@ const Posts = () => {
                 {post.user.banned  ?
                 <div>
                     <button
-                        onClick={() => {console.log(post.created_by); banUser(post.created_by)}}
+                        onClick={() => {console.log(post.created_by); unbanUser(post.created_by)}}
                         className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                     >
                         Unban User
                     </button>
-                    <Modal isOpen={banNotif} onRequestClose={() => setUnbanNotif(false)} style={customStyles}>
+                    <Modal isOpen={unbanNotif} onRequestClose={() => setUnbanNotif(false)} style={customStyles}>
                     <div>
                         <div className="flex text-lg text-center bg-white text-black">
                         <p>This user has been unbanned.</p>
@@ -220,7 +220,7 @@ const Posts = () => {
                     >
                         Ban User
                     </button>
-                    <Modal isOpen={unbanNotif} onRequestClose={() => setBanNotif(false)} style={customStyles}>
+                    <Modal isOpen={banNotif} onRequestClose={() => setBanNotif(false)} style={customStyles}>
                     <div>
                         <div className="flex text-lg text-center bg-white text-black">
                         <p>This user has been banned.</p>
