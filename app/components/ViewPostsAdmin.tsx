@@ -111,10 +111,6 @@ const Posts = () => {
     }
 
     const banUser = async (userId: string) => {
-        const postIndex = posts.findIndex((post) => post.user.id === userId);
-        console.log(postIndex);
-        if (postIndex === -1) return;
-
         fetch(`api/admin/banUser?userId=${userId}`)
         .catch(error => console.error(
             "Error fetching data: ", error
@@ -125,10 +121,6 @@ const Posts = () => {
     }
 
     const unbanUser = async (userId: string) => {
-        const postIndex = posts.findIndex((post) => post.user.id === userId);
-        console.log(postIndex);
-        if (postIndex === -1) return;
-
         fetch(`api/admin/unbanUser?userId=${userId}`)
         .catch(error => console.error(
             "Error fetching data: ", error
@@ -204,7 +196,7 @@ const Posts = () => {
                 {post.user.banned  ?
                 <div>
                     <button
-                        onClick={() => unbanUser(post.user.id)}
+                        onClick={() => {console.log(post.created_by); banUser(post.created_by)}}
                         className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
                     >
                         Unban User
@@ -223,7 +215,7 @@ const Posts = () => {
                 :
                 <div>
                     <button
-                        onClick={() => banUser(post.user.id)}
+                        onClick={() => {console.log(post.created_by); banUser(post.created_by)}}
                         className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
                     >
                         Ban User
